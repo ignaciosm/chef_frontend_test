@@ -9,7 +9,7 @@ function App() {
   const [recipes, setRecipes] = useState([])
 
   useEffect(()=>{
-    axios.get('https://cors-anywhere.herokuapp.com/https://bw4-chef-test.herokuapp.com/recipes')
+    axios.get('https://cors-anywhere.herokuapp.com/https://bw4-chef-api.herokuapp.com/api/recipes')
     .then(res => {
       setRecipes(res.data)
     })
