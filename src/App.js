@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import { Route } from "react-router-dom";
+import AllRecipes from './components/AllRecipes';
+import RecipeDetails from './components/RecipeDetails';
+import axios from 'axios';
 
 function App() {
+  const [recipes, setRecipes] = useState([])
+
+  useEffect(()=>{
+    axios.get('https://cors-anywhere.herokuapp.com/https://bw4-chef-test.herokuapp.com/recipes')
+    .then(res => {
+      setRecipes(res.data)
+    })
+    .catch(err => { console.log('error')})
+  },[])
+
+  console.log('recipes', recipes)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Route exact path="/" render={props => <AllRecipes {...props} recipes={recipes} />} />
+    <Route exact path="/recipes/:id" render={props => <RecipeDetails {...props} recipes={recipes} />} />
+    </>
   );
 }
 
